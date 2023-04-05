@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue组件通信 v-model</title>
+    <script src="../static/vue.js"></script>
+    <style></style>
+  </head>
+  <body>
+    <div id="web">
+      <h1>Vue组件通信 v-model</h1>
+      <div>value is: {{value}}</div>
+      <sub-comp v-model="value"></sub-comp>
+    </div>
+    <script>
+      // 子组件
+      Vue.component('sub-comp', {
+        props: ['value'],
+        template: `
+        <div class="sub-comp">
+          <h3>子组件</h3>
+          <div>
+            <input :value="value" @input="$emit('input', $event.target.value)"></input>
+          </div>
+        </div>`,
+      })
+
+      // 根组件
+      var vm = new Vue({
+        el: '#web',
+        data() {
+          return {
+            value: '',
+          }
+        },
+      })
+    </script>
+  </body>
+</html>

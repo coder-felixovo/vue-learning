@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue组件通信 $attrs和$listeners</title>
+    <script src="../static/vue.js"></script>
+    <style></style>
+  </head>
+  <body>
+    <div id="web">
+      <h1>Vue组件通信 $attrs和$listeners</h1>
+      <sub-comp :title="title" :author="author" @get-child-msg="handleChildMsg"></sub-comp>
+    </div>
+    <script>
+      // 子组件
+      Vue.component('sub-comp', {
+        template: `
+        <div class="sub-comp">
+          <h3>子组件</h3>
+        </div>`,
+        created() {
+          console.log(this.$attrs)
+          // {title: '铃芽之旅', author: '新海诚'}
+          console.log(this.$listeners)
+          // get-child-msg: f
+          this.$listeners['get-child-msg'](100)
+        },
+      })
+
+      // 根组件
+      var vm = new Vue({
+        el: '#web',
+        data() {
+          return {
+            title: '铃芽之旅',
+            author: '新海诚',
+          }
+        },
+        methods: {
+          handleChildMsg(value) {
+            console.log(value) // 100
+          },
+        },
+      })
+    </script>
+  </body>
+</html>

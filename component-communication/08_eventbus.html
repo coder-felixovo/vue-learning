@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue组件通信 EventBus</title>
+    <script src="../static/vue.js"></script>
+    <style></style>
+  </head>
+  <body>
+    <div id="web">
+      <h1>Vue组件通信 EventBus</h1>
+      <button @click="greet">事件总线</button>
+      <sub-comp></sub-comp>
+    </div>
+    <script>
+      // 子组件
+      Vue.component('sub-comp', {
+        template: `
+        <div class="sub-comp">
+          <h3>子组件</h3>
+        </div>`,
+        mounted() {
+          this.$bus.$off('sayHi').$on('sayHi', (value) => {
+            console.log(value) // "hello sub component"
+          })
+        },
+      })
+
+      // 创建一个Vue实例作为事件总线，挂载到Vue原型上
+      Vue.prototype.$bus = new Vue()
+
+      // 根组件
+      var vm = new Vue({
+        el: '#web',
+
+        created() {},
+
+        methods: {
+          greet() {
+            this.$bus.$emit('sayHi', 'hello sub component')
+          },
+        },
+      })
+    </script>
+  </body>
+</html>

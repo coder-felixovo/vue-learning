@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue组件通信 $emit和v-on</title>
+    <script src="../static/vue.js"></script>
+    <style></style>
+  </head>
+  <body>
+    <div id="web">
+      <h1>Vue组件通信 $emit和v-on</h1>
+      <sub-comp @send-msg="getChildMsg"></sub-comp>
+    </div>
+    <script>
+      // 子组件
+      Vue.component('sub-comp', {
+        template: `
+        <div class="sub-comp">
+          <h3>子组件</h3>
+          <button @click="sendMsgToParent">传送数据到父组件</button>
+        </div>`,
+        methods: {
+          sendMsgToParent() {
+            const text = 'abc'
+            this.$emit('send-msg', text)
+          },
+        },
+      })
+
+      // 根组件
+      var vm = new Vue({
+        el: '#web',
+        methods: {
+          getChildMsg(value) {
+            console.log(value)
+          },
+        },
+      })
+    </script>
+  </body>
+</html>

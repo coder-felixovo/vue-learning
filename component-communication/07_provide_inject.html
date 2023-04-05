@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue组件通信 provide和inject</title>
+    <script src="../static/vue.js"></script>
+    <style></style>
+  </head>
+  <body>
+    <div id="web">
+      <h1>Vue组件通信 provide和inject</h1>
+      <sub-comp></sub-comp>
+    </div>
+    <script>
+      // 子组件
+      Vue.component('sub-comp', {
+        template: `
+        <div class="sub-comp">
+          <h3>子组件</h3>
+          <p>{{pi}}</p>
+        </div>`,
+        inject: ['pi', 'greet'],
+        created() {
+          console.log('子组件', this.pi) // "子组件 3.14"
+          this.greet() // "父组件中的greet方法"
+        },
+      })
+
+      // 根组件
+      var vm = new Vue({
+        el: '#web',
+        // 无法获取this.xxx
+        // provide: {
+        //   pi: 3.14,
+        // },
+        provide() {
+          return {
+            pi: this.pi,
+            greet: this.greet,
+          }
+        },
+
+        data() {
+          return {
+            pi: 3.14,
+          }
+        },
+
+        methods: {
+          greet() {
+            console.log('父组件中的greet方法')
+          },
+        },
+      })
+    </script>
+  </body>
+</html>

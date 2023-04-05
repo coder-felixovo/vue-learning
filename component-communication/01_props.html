@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue组件通信 props</title>
+    <script src="../static/vue.js"></script>
+    <style>
+      .sub-comp {
+        color: blue;
+        background-color: lightpink;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="web">
+      <h1>Vue组件通信 props</h1>
+      <sub-comp :msg="message"></sub-comp>
+    </div>
+    <script>
+      // 子组件
+      Vue.component('sub-comp', {
+        props: ['msg'],
+        template: `
+        <div class="sub-comp">
+          <h3>子组件</h3>
+          {{msg}}
+        </div>`,
+      })
+
+      // 根组件
+      var vm = new Vue({
+        el: '#web',
+        data() {
+          return {
+            message: '这是给子组件的消息',
+          }
+        },
+      })
+    </script>
+  </body>
+</html>
